@@ -77,7 +77,7 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 
   1. Querying a collection of cities
 
-     To query a list of cities, we just need to invoke `query` method from our `service` instance. You need to pass a callback to `query` method like that:
+     To query a list of cities, we just need to invoke `query` method from our `service` instance. You need to pass a callback function to `query` method like that:
 
 		CityViewModel.prototype.list = function() {
 		    var self = this;
@@ -88,7 +88,19 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 
      In this example, server will return a JSON list of cities and we pass to `collection` property.
 
-  2. Getting a single instance of city, by ID
+  2. Getting a single instance of city
+
+     To get an instance of a single object, we need to invoke `get` method from our `service` instance.
+
+		CityViewModel.prototype.find = function(code) {
+		    var self = this;
+		    self.service.load(code, function(data) {
+		        self.model(data);
+		    });
+		};
+
+     In this example, we will get a single instance of city with value of `code` parameter, the JSON result the come back from the server will be attached to `model` property.
+
   3. Saving data to the server
   4. Updating an instance
   5. Deleting an instance
