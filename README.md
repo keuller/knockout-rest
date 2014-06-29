@@ -143,6 +143,11 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 
 We have a todo that is create a complete example application of using `knockout-rest` API. I hope this simple API can help you in your Knockout's projects. Any problem, please give me in touch.
 
+Roadmap
+---
+
+Please feel free to suggest new features and contribute with this project. We're planning other features to improve this API.
+
 License
 ---
 
