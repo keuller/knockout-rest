@@ -21,11 +21,37 @@ If you are new developer with KnockoutJS, please take a look [tutorials website]
 
 ##Referening those libs on HTML file
 
-TO-DO
+After you download the dependencies files, you just need to reference in HTML file like that:
+
+	<script type='text/javascript' src='js/vendor/jquery-2.1.1.min.js'></script>
+	<script type='text/javascript' src='js/vendor/knockout-3.1.0.js'></script>
+	<script type='text/javascript' src='js/vendor/knockout-rest.min.js'></script>
+
+Note: As a good practice, put these `script` tag references on the bottom HTML page.
 
 ##Creating a ViewModel
 
-TO-DO
+Now, let us create our ViewModel object to interacte with server code. In this example, we're assuming that exist a REST services with CRUD operations.
+
+	(function() {
+	    'use strict';
+
+            var CityViewModel = function() {
+		this.service = ko.rest.service('/api/cities');
+		this.model = ko.observable({ id:0, name: '' });
+		this.collection = ko.observableArray([]);
+	    };
+
+	    ko.applyBindings(new CityViewModel());
+	});
+
+This code above, creates a view model called `CityViewModel` with 3 properties:
+
+  1. service: it's a reference of our REST service, that point out to `/api/cities`;
+  2. model: it's a observable reference to an POJO object;
+  3. collection: it's a reference to model collection of cities;
+
+At the end we applying this view model object into the page, using `ko.applyBindings` function. So simple, ha?!
 
 ##Defining REST service
 
