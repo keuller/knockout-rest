@@ -99,11 +99,47 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 		    });
 		};
 
-     In this example, we will get a single instance of city with value of `code` parameter, the JSON result the come back from the server will be attached to `model` property.
+     In this example, we will get a single instance of city with value of `code` parameter, the JSON result that come back from the server will be assigned to `model` property.
 
   3. Saving data to the server
+
+     To send data to the server is so simple. Just pass you JSON data to `save` method like that:
+
+		CityViewModel.prototype.save = function() {
+		    var self = this;
+		    var data = self.model();
+		    self.service.save(data, function(result) {
+		        console.log(result);
+		    });
+		};
+
   4. Updating an instance
+
+     To update an instance, like a `save` method you pass your JSON to `update` method like that:
+
+		CityViewModel.prototype.update = function() {
+		    var self = this;
+	            var data = self.model();
+		    self.service.update(data, function(result) {
+		        console.log(result);
+		    });
+		};
+
+     **Note**: to performe update operation, you model object must be an `id` property, otherwise knockout-rest will throw an error.
+
   5. Deleting an instance
+
+     To remove an instance, inform the `id` value to `delete` method like that:
+
+		CityViewModel.prototype.remove = function() {
+		    var self = this;
+		    var code = ko.rest.get(self.model(), 'id');
+		    self.service.delete(code, function(result) {
+		        console.log(result);
+		    });
+		};
+
+     In this example above, we're using a helper method `ko.rest.get` to get the **id** value of our model object and pass it to `delete` method.
 
 License
 ---
