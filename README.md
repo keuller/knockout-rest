@@ -73,9 +73,21 @@ In the server side we expect the follows endpoint convention:
 
 If you take a look these are endpoints to CRUD operations, but you can use knockout-rest as you wish. Now let's define each operation in our view model object. These endpoint are convention assumed by `knockout-rest` API.
 
-##Default operations availble
+##Default operations available
 
   1. Querying a collection of cities
+
+     To query a list of cities, we just need to invoke `query` method from our `service` instance. You need to pass a callback to `query` method like that:
+
+	CityViewModel.prototype.list = function() {
+	    var self = this;
+	    self.service.query(function(data) {
+	        self.collection(data);
+	    });
+	};
+
+     In this example, server will return a JSON list of cities and we pass to `collection` property.
+
   2. Getting a single instance of city, by ID
   3. Saving data to the server
   4. Updating an instance
