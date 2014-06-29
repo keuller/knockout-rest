@@ -141,7 +141,7 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 
      In this example above, we're using a helper method `ko.rest.get` to get the **id** value of our model object and pass it to `delete` method.
 
-We have a todo that is create a complete example application of using `knockout-rest` API. I hope this simple API can help you in you Knockout projects. Any problem, please give me in touch.
+We have a todo that is create a complete example application of using `knockout-rest` API. I hope this simple API can help you in your Knockout's projects. Any problem, please give me in touch.
 
 License
 ---
