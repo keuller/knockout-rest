@@ -1,0 +1,24 @@
+{
+  "name": "knockout-rest",
+  "version": "0.0.1",
+  "description": "Knockout REST API",
+  "main": "knockout-rest.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "knockoutjs",
+    "rest",
+    "api"
+  ],
+  "author": "Keuller Magalhaes",
+  "email": "keuller.magalhaes@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.5",
+    "gulp-jshint": "^1.6.3",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^0.3.1",
+    "knockout": "^3.1.0"
+  }
+}

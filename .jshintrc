@@ -1,0 +1,6 @@
+{
+  "camelcase": true,
+  "curly": true,
+  "strict": true,
+  "unused": true
+}
