@@ -55,6 +55,14 @@ At the end we applying this view model object into the page, using `ko.applyBind
 
 ##Defining REST service
 
+`knockout-rest` is just a wrapper to jQuery's ajax methods. This is the reason why we need jQuery. To define a REST service in view model is so simple, by adding this line in your code:
+
+	var service = ko.rest.service(['endpoint_url']);
+
+After invocation this method, it will return an instance of REST service object provided by `knockout-rest`. This object provide to us a few methods that allow us make requests to the service, with no bother us with implementation details of $.ajax API. 
+
+##Defining server side REST endpoints
+
 In the server side we expect the follows endpoint convention:
 
   1. GET  /api/cities     : will return a list of cities;
@@ -63,15 +71,15 @@ In the server side we expect the follows endpoint convention:
   4. PUT  /api/cities/:id : update an instance of city, that will be passed in body request as JSON;
   5. DELETE /api/cities/:id : will delete an instance of city with `:id` specified;
 
-If you take a look these are endpoints to CRUD operations, but you can use knockout-rest as you wish. Now let's define each operation in our view model object.
+If you take a look these are endpoints to CRUD operations, but you can use knockout-rest as you wish. Now let's define each operation in our view model object. These endpoint are convention assumed by `knockout-rest` API.
 
-##Default operations avaiable
+##Default operations availble
 
-TO-DO
-
-##Defining server side REST endpoints
-
-TO-DO
+  1. Querying a collection of cities
+  2. Getting a single instance of city, by ID
+  3. Saving data to the server
+  4. Updating an instance
+  5. Deleting an instance
 
 License
 ---
