@@ -79,12 +79,12 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 
      To query a list of cities, we just need to invoke `query` method from our `service` instance. You need to pass a callback to `query` method like that:
 
-	CityViewModel.prototype.list = function() {
-	    var self = this;
-	    self.service.query(function(data) {
-	        self.collection(data);
-	    });
-	};
+		CityViewModel.prototype.list = function() {
+		    var self = this;
+		    self.service.query(function(data) {
+		        self.collection(data);
+		    });
+		};
 
      In this example, server will return a JSON list of cities and we pass to `collection` property.
 
