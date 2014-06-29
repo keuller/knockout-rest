@@ -36,10 +36,10 @@ Now, let us create our ViewModel object to interacte with server code. In this e
 	(function() {
 	    'use strict';
 
-            var CityViewModel = function() {
-		this.service = ko.rest.service('/api/cities');
-		this.model = ko.observable({ id:0, name: '' });
-		this.collection = ko.observableArray([]);
+	    var CityViewModel = function() {
+	        this.service = ko.rest.service('/api/cities');
+	        this.model = ko.observable({ id:0, name: '' });
+	        this.collection = ko.observableArray([]);
 	    };
 
 	    ko.applyBindings(new CityViewModel());
@@ -47,9 +47,9 @@ Now, let us create our ViewModel object to interacte with server code. In this e
 
 This code above, creates a view model called `CityViewModel` with 3 properties:
 
-  1. service: it's a reference of our REST service, that point out to `/api/cities`;
-  2. model: it's a observable reference to an POJO object;
-  3. collection: it's a reference to model collection of cities;
+  1. **service**: it's a reference of our REST service, that point out to `/api/cities`;
+  2. **model**: it's a observable reference to an POJO object;
+  3. **collection**: it's a reference to model collection of cities;
 
 At the end we applying this view model object into the page, using `ko.applyBindings` function. So simple, ha?!
 
