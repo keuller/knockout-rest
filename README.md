@@ -7,3 +7,13 @@ Dependencies
 ---
 
 This API depends on [JQuery](http://jquery.com).
+
+Getting Started
+---
+
+TO-DO
+
+License
+---
+
+MIT License - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
