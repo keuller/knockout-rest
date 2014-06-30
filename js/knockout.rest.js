@@ -67,7 +67,7 @@
 				throw new Error('Data object parameter is required to invoke this method.');
 			}
 
-			if (ko.rest.isUndefined('undefined')) {
+			if (ko.rest.isUndefined(error)) {
 				error = function(err) { console.log(err); };
 			}
 
