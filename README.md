@@ -19,7 +19,7 @@ If you are new developer with KnockoutJS, please take a look [tutorials website]
   2. KnockoutJS
   3. Knockout-rest
 
-##Referening those libs on HTML file
+##Referencing those libs on HTML file
 
 After you download the dependencies files, you just need to reference in HTML file like that:
 
