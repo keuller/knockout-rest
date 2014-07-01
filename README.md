@@ -3,11 +3,6 @@ knockout-rest
 
 Knockout REST API provides a simple and flexibe API to use REST services with Knockout ViewModel objects.
 
-Dependencies
----
-
-This API depends on [JQuery](http://jquery.com).
-
 Getting Started
 ---
 
@@ -15,19 +10,17 @@ If you are new developer with KnockoutJS, please take a look [tutorials website]
 
 ##Download all JS libs that you need
 
-  1. JQuery
-  2. KnockoutJS
-  3. Knockout-rest
+  1. KnockoutJS
+  2. Knockout-rest
 
 ##Referencing those libs on HTML file
 
 After you download the dependencies files, you just need to reference in HTML file like that:
 
-	<script type='text/javascript' src='js/vendor/jquery-2.1.1.min.js'></script>
 	<script type='text/javascript' src='js/vendor/knockout-3.1.0.js'></script>
 	<script type='text/javascript' src='js/vendor/knockout-rest.min.js'></script>
 
-Note: As a good practice, put these `script` tag references on the bottom HTML page.
+Note: As a good practice, put these `script` tags references on the bottom HTML page.
 
 ##Creating a ViewModel
 
@@ -53,15 +46,15 @@ This code above, creates a view model called `CityViewModel` with 3 properties:
 
 At the end we applying this view model object into the page, using `ko.applyBindings` function. So simple, ha?!
 
-##Defining REST service
+## Defining REST service
 
-`knockout-rest` is just a wrapper to jQuery's ajax methods. This is the reason why we need jQuery. To define a REST service in view model is so simple, by adding this line in your code:
+`knockout-rest` provides a simple to connect to the server using Ajax calls. To define a REST service in view model is so simple, by adding this line in your code:
 
 	var service = ko.rest.service(['endpoint_url']);
 
 After invocation this method, it will return an instance of REST service object provided by `knockout-rest`. This object provide to us a few methods that allow us make requests to the service, with no bother us with implementation details of $.ajax API. 
 
-##Defining server side REST endpoints
+## Setting server side REST endpoints
 
 In the server side we expect the follows endpoint convention:
 
@@ -73,7 +66,7 @@ In the server side we expect the follows endpoint convention:
 
 If you take a look these are endpoints to CRUD operations, but you can use knockout-rest as you wish. Now let's define each operation in our view model object. These endpoint are convention assumed by `knockout-rest` API.
 
-##Default operations available
+## Default operations available
 
   1. Querying a collection of cities
 
@@ -113,7 +106,7 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 		    });
 		};
 
-  4. Updating an instance
+  4. Updating data to the server
 
      To update an instance, like a `save` method you pass your JSON to `update` method like that:
 
@@ -127,7 +120,7 @@ If you take a look these are endpoints to CRUD operations, but you can use knock
 
      **Note**: to performe update operation, you model object must be an `id` property, otherwise knockout-rest will throw an error.
 
-  5. Deleting an instance
+  5. Deleting a resource
 
      To remove an instance, inform the `id` value to `delete` method like that:
 
@@ -146,7 +139,7 @@ We have a todo that is create a complete example application of using `knockout-
 Roadmap
 ---
 
-Please feel free to suggest new features and contribute with this project. We're planning other features to improve this API.
+Please feel free to suggest new features and contribute with this project.
 
 License
 ---
