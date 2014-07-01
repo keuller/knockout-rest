@@ -1,4 +1,4 @@
-(function($) {
+(function() {
 	'use strict';
 
 	if (ko === 'undefined') {
@@ -39,18 +39,14 @@
 
 			var self = this;
 			if (ko.rest.isUndefined(params) || ko.rest.isFunction(params)) {
-				$.get(self.url)
-				.done(params)
-				.fail(success);
+				ko.rest.adapter('GET', self.url, {}, params, success);
 				return;
 			}
 
-			$.get(self.url, params)
-			.done(success)
-			.fail(error);
+			ko.rest.adapter('GET', self.url, params, success, error);
 		};
 
-		// GET 'url' with parameters
+		// GET 'url'
 		Rest.prototype.load = function(code, success, error) {
 			if (ko.rest.isUndefined(error)) {
 				error = function(err) { console.log(err); };
@@ -58,13 +54,13 @@
 
 			var self = this;
 			var _url = self.url + '/' + code;
-			$.get(_url).done(success).fail(error);
+			ko.rest.adapter('GET', _url, {}, success, error);
 		};
 
 		// POST 'url'
 		Rest.prototype.save = function(data, success, error) {
 			if (ko.rest.isUndefined(data) || ko.rest.isFunction(data)) {
-				throw new Error('Data object parameter is required to invoke this method.');
+				throw new Error('Data object parameter cannot be found.');
 			}
 
 			if (ko.rest.isUndefined(error)) {
@@ -72,15 +68,13 @@
 			}
 
 			var self = this;
-			$.post(self.url, data)
-			   .done(success)
-			   .fail(error);
+			ko.rest.adapter('POST', self.url, data, success, error);
 		};
 
 		// PUT 'url'
 		Rest.prototype.update = function(data, success, error) {
 			if (ko.rest.isUndefined(data) || ko.rest.isFunction(data)) {
-				throw new Error('Data object parameter is required to invoke this method.');
+				throw new Error('Data object parameter cannot be found.');
 			}
 
 			if (ko.rest.isUndefined(error)) {
@@ -95,13 +89,7 @@
 			var _json = data;
 
 			var _url = this.url + '/' + _id;
-			$.ajax({
-				url: _url, 
-				cache: false,
-				data: _json,
-				type: 'PUT',
-				dataType: 'json'
-			}).done(success).fail(error);
+			ko.rest.adapter('PUT', _url, _json, success, error);
 		};
 
 		// method DELETE 'url'
@@ -116,16 +104,73 @@
 				throw new Error("'id' parameter was not specified.");
 			} else {
 				var _url = self.url + '/' + code;
-				$.ajax({
-					url: _url, 
-					cache: false,
-					type: 'DELETE',
-					dataType: 'json'
-				}).done(success).fail(error);
+				ko.rest.adapter('DELETE', _url, {}, success, error);
 			}
 		};
 
 		return new Rest(url);
 	};
 
-})(jQuery);
+	// native adapter
+	ko.rest.xhr = function() {
+		try {
+			return new XMLHttpRequest();
+		} catch(e) {
+		}
+	};
+
+	ko.rest.adapter = function(method, _url, _data, cbSuccess, cbError) {
+		if (!ko.rest.isUndefined(jQuery)) {
+			$.ajax({
+				url: _url, 
+				cache: false,
+				data: _data,
+				type: method,
+				dataType: 'json'
+			}).done(cbSuccess)
+			  .fail(cbError);
+		} else {
+			var xhr = ko.rest.xhr();
+			xhr.onload = function() {
+				var res = JSON.parse(this.responseText);
+				cbSuccess(res);
+			};
+			xhr.onerror = function() { 
+				var res = JSON.parse(this.responseText);
+				cbError(res);
+			};
+			
+			var qrystr = convert(_data);
+			if (!ko.rest.isUndefined(qrystr) && qrystr !== '') {
+				_url = _url + '?' + qrystr;
+			}
+
+			xhr.open(method, _url, true);
+
+			if (method === 'GET') {
+				xhr.send(null);
+			} else {
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.send(JSON.stringify(_data));
+			}
+		}
+	};
+
+	function convert(obj) {
+		if (typeof obj === 'undefined') {
+			return '';
+		}
+
+		var _tmp = '', idx = 0;
+		for(var key in obj) {
+			if (idx === 0) {
+				_tmp += (key + '=' + obj[key]);
+			} else {
+				_tmp += '&' + (key + '=' + obj[key]);
+			}
+			idx++;
+		}
+		return _tmp;
+	}
+
+})();
