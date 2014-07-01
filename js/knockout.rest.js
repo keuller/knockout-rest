@@ -129,30 +129,31 @@
 				dataType: 'json'
 			}).done(cbSuccess)
 			  .fail(cbError);
+			return;
+		}
+
+		var xhr = ko.rest.xhr();
+		xhr.onload = function() {
+			var res = JSON.parse(this.responseText);
+			cbSuccess(res);
+		};
+		xhr.onerror = function() { 
+			var res = JSON.parse(this.responseText);
+			cbError(res);
+		};
+		
+		var qrystr = convert(_data);
+		if (!ko.rest.isUndefined(qrystr) && qrystr !== '') {
+			_url = _url + '?' + qrystr;
+		}
+
+		xhr.open(method, _url, true);
+
+		if (method === 'GET') {
+			xhr.send(null);
 		} else {
-			var xhr = ko.rest.xhr();
-			xhr.onload = function() {
-				var res = JSON.parse(this.responseText);
-				cbSuccess(res);
-			};
-			xhr.onerror = function() { 
-				var res = JSON.parse(this.responseText);
-				cbError(res);
-			};
-			
-			var qrystr = convert(_data);
-			if (!ko.rest.isUndefined(qrystr) && qrystr !== '') {
-				_url = _url + '?' + qrystr;
-			}
-
-			xhr.open(method, _url, true);
-
-			if (method === 'GET') {
-				xhr.send(null);
-			} else {
-				xhr.setRequestHeader('Content-Type', 'application/json');
-				xhr.send(JSON.stringify(_data));
-			}
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.send(JSON.stringify(_data));
 		}
 	};
 
