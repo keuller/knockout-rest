@@ -3,17 +3,16 @@ knockout-rest
 
 Knockout REST API provides a simple and flexibe API to use REST services with Knockout ViewModel objects.
 
-Getting Started
----
+## Getting Started
 
 If you are new developer with KnockoutJS, please take a look [tutorials website](http://knockoutjs.com/documentation/introduction.html)
 
-##Download all JS libs that you need
+## Download JS libs
 
   1. KnockoutJS
   2. Knockout-rest
 
-##Referencing those libs on HTML file
+## Referencing Libraries
 
 After you download the dependencies files, you just need to reference in HTML file like that:
 
@@ -22,7 +21,7 @@ After you download the dependencies files, you just need to reference in HTML fi
 
 Note: As a good practice, put these `script` tags references on the bottom HTML page.
 
-##Creating a ViewModel
+## Creating a ViewModel
 
 Now, let us create our ViewModel object to interacte with server code. In this example, we're assuming that exist a REST services with CRUD operations.
 
@@ -48,13 +47,13 @@ At the end we applying this view model object into the page, using `ko.applyBind
 
 ## Defining REST service
 
-`knockout-rest` provides a simple to connect to the server using Ajax calls. To define a REST service in view model is so simple, by adding this line in your code:
+`knockout-rest` provides a simple way to connect to the server using Ajax calls. To define a REST service in view model is so simple, by adding this line in your code:
 
 	var service = ko.rest.service(['endpoint_url']);
 
 After invocation this method, it will return an instance of REST service object provided by `knockout-rest`. This object provide to us a few methods that allow us make requests to the service, with no bother us with implementation details of $.ajax API. 
 
-## Setting server side REST endpoints
+## Setting server side
 
 In the server side we expect the follows endpoint convention:
 
