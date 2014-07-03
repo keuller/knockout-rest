@@ -11,7 +11,7 @@
 	</style>
 </head>
 <body>
-	<h2 style="margin-left:5%;">Knockout Rest - CRUD Sample</h2>
+	<h2 id="title" style="margin-left:5%;"></h2>
 
 	<div class="container">
 		<div class="row">
@@ -65,11 +65,27 @@
 			</form>
 		</div>
 
+		<div class="row">
+			<div id="fragment"></div>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/vendor/knockout-3.1.0.js"></script>
 	<script type="text/javascript" src="js/knockout-rest.min.js"></script>
 	<script type="text/javascript" src="js/cities.js"></script>
+	<script type="text/javascript">
+		(function() {
+			var el = document.getElementById('title');
+			ko.rest.requester({ 
+				method: 'GET', 
+				url: '/partials/title', 
+				data: {}, 
+				success: function(result) {
+					el.innerHTML = result;
+				} 
+			});
+		})();
+	</script>
 </body>
 </html>

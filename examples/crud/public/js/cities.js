@@ -58,6 +58,7 @@
 
 	CityViewModel.prototype.cancel = function() {
 		this.model({ id:0, name:'', state: '' });
+		document.getElementById('fragment').innerHTML = '';
 	};
 
 	ko.applyBindings( new CityViewModel() );

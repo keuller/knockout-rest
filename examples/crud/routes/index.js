@@ -15,6 +15,10 @@ router.get('/', function(req, res) {
   res.render('cities', { });
 });
 
+router.get('/partials/title', function(req, res) {
+	res.render('fragment', { title: 'Knockout-Rest Demo Application' });
+});
+
 /* returns a list of cities */
 router.get('/api/cities', function(req, res) {
 	var name = req.query.name;
