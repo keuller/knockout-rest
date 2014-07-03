@@ -9,7 +9,7 @@ Download or clone this repo and locally on project folder type:
     $ npm install
     $ npm start
 
-After server starts, open your browse poninting out to `http://localhost:3000`.
+After server starts, open your browse pointing out to `http://localhost:3000`.
 
 License
 ---
