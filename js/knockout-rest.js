@@ -46,11 +46,15 @@
 			var self = this;
 			if (ko.rest.isUndefined(params) || ko.rest.isFunction(params)) {
 			    _success = params;
-				ko.rest.adapter({ method: 'GET', url: self.url, data: {}, success: _success, error: _error });
+				ko.rest.requester({ 
+					method: 'GET', url: self.url, data: {}, success: _success, error: _error, type:'json' 
+				});
 				return;
 			}
 
-			ko.rest.adapter({ method: 'GET', url: self.url, data: params, success: _success, error: _error });
+			ko.rest.requester({ 
+				method: 'GET', url: self.url, data: params, success: _success, error: _error, type:'json' 
+			});
 		};
 
 		// GET 'url'
@@ -61,7 +65,9 @@
 
 			var self = this;
 			var _url = self.url + '/' + code;
-			ko.rest.adapter({ method: 'GET', url: _url, data: {}, success: _success, error: _error });
+			ko.rest.requester({ 
+				method: 'GET', url: _url, data: {}, success: _success, error: _error, type:'json' 
+			});
 		};
 
 		// POST 'url'
@@ -75,13 +81,15 @@
 			}
 
 			var self = this;
-			ko.rest.adapter({ method: 'POST', url: self.url, data: _data, success: _success, error: _error });
+			ko.rest.requester({ 
+				method: 'POST', url: self.url, data: _data, success: _success, error: _error, type:'json' 
+			});
 		};
 
 		// PUT 'url'
 		Rest.prototype.update = function(data, _success, _error) {
 			if (ko.rest.isUndefined(data) || ko.rest.isFunction(data)) {
-				throw new Error('Data object parameter cannot be found.');
+				throw new Error('Data object parameter is required.');
 			}
 
 			if (ko.rest.isUndefined(_error)) {
@@ -96,7 +104,9 @@
 			var _json = data;
 
 			var _url = this.url + '/' + _id;
-			ko.rest.adapter({ method: 'PUT', url: _url, data: _json, success: _success, error: _error });
+			ko.rest.requester({ 
+				method: 'PUT', url: _url, data: _json, success: _success, error: _error, type:'json' 
+			});
 		};
 
 		// method DELETE 'url'
@@ -111,7 +121,9 @@
 				throw new Error("'id' parameter was not specified.");
 			} else {
 				var _url = self.url + '/' + code;
-				ko.rest.adapter({ method: 'DELETE', url: _url, data: {}, success: _success, error: _error });
+				ko.rest.requester({ 
+					method: 'DELETE', url: _url, data: {}, success: _success, error: _error, type:'json' 
+				});
 			}
 		};
 
@@ -127,15 +139,19 @@
 	};
 
     // pass an object { method, url, data, success, error }
-	ko.rest.adapter = function(obj) {
-	
-		if (!ko.rest.isUndefined(jQuery)) {
+	ko.rest.requester = function(obj) {
+
+		if (ko.rest.isUndefined(obj.type)) {
+			obj.type = 'html';
+		}
+
+		if (!ko.rest.isUndefined(window.jQuery)) {
 			$.ajax({
 				url: obj.url, 
 				cache: false,
 				data: obj.data,
 				type: obj.method,
-				dataType: 'json'
+				dataType: obj.type
 			}).done(obj.success)
 			  .fail(obj.error);
 			return;
@@ -143,12 +159,20 @@
 
 		var xhr = ko.rest.xhr();
 		xhr.onload = function() {
-			var res = JSON.parse(this.responseText);
-			obj.success(res);
+			if (obj.type === 'json') {
+				var res = JSON.parse(this.responseText);
+				obj.success(res);
+			} else {
+				obj.success(this.responseText);
+			}
 		};
 		xhr.onerror = function() { 
-			var res = JSON.parse(this.responseText);
-			obj.error(res);
+			if (obj.type === 'json') {
+				var res = JSON.parse(this.responseText);
+				obj.error(res);
+			} else {
+				obj.error(this.responseText);
+			}
 		};
 		
 		var qrystr = convert(obj.data);
@@ -156,7 +180,7 @@
 			obj.url = obj.url + '?' + qrystr;
 		}
 
-		xhr.open(method, obj.url, true);
+		xhr.open(obj.method, obj.url, true);
 
 		if (obj.method === 'GET') {
 			xhr.send(null);
