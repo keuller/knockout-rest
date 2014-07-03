@@ -13,10 +13,18 @@ gulp.task('lint', function() {
 });
 
 gulp.task('build', function() {
-   return gulp.src('js/*.js')
+   return gulp.src('js/knockout-rest.js')
               .pipe(rename('knockout-rest.min.js'))
               .pipe(uglify())
               .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['lint', 'build']);
+gulp.task('build-amd', function() {
+   return gulp.src('js/knockout-rest.amd.js')
+              .pipe(rename('knockout-rest.amd.min.js'))
+              .pipe(uglify())
+              .pipe(gulp.dest('dist'));
+});
+
+
+gulp.task('default', ['lint', 'build', 'build-amd']);

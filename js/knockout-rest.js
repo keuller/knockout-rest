@@ -1,3 +1,8 @@
+/*
+ Knockout-Rest 1.0.0 Copyright (c) 2010-2014,
+ Available via the MIT or new BSD license.
+ see: https://github.com/keuller/knockout-rest for details
+*/
 (function() {
 	'use strict';
 
@@ -33,53 +38,54 @@
 		};
 
 		// GET 'url'
-		Rest.prototype.query = function(params, success, error) {
-			if (ko.rest.isUndefined(error)) {
-				error = function(err) { console.log(err); };
+		Rest.prototype.query = function(params, _success, _error) {
+			if (ko.rest.isUndefined(_error)) {
+				_error = function(err) { console.log(err); };
 			}
 
 			var self = this;
 			if (ko.rest.isUndefined(params) || ko.rest.isFunction(params)) {
-				ko.rest.adapter('GET', self.url, {}, params, success);
+			    _success = params;
+				ko.rest.adapter({ method: 'GET', url: self.url, data: {}, success: _success, error: _error });
 				return;
 			}
 
-			ko.rest.adapter('GET', self.url, params, success, error);
+			ko.rest.adapter({ method: 'GET', url: self.url, data: params, success: _success, error: _error });
 		};
 
 		// GET 'url'
-		Rest.prototype.load = function(code, success, error) {
-			if (ko.rest.isUndefined(error)) {
-				error = function(err) { console.log(err); };
+		Rest.prototype.load = function(code, _success, _error) {
+			if (ko.rest.isUndefined(_error)) {
+				_error = function(err) { console.log(err); };
 			}
 
 			var self = this;
 			var _url = self.url + '/' + code;
-			ko.rest.adapter('GET', _url, {}, success, error);
+			ko.rest.adapter({ method: 'GET', url: _url, data: {}, success: _success, error: _error });
 		};
 
 		// POST 'url'
-		Rest.prototype.save = function(data, success, error) {
-			if (ko.rest.isUndefined(data) || ko.rest.isFunction(data)) {
-				throw new Error('Data object parameter cannot be found.');
+		Rest.prototype.save = function(_data, _success, _error) {
+			if (ko.rest.isUndefined(_data) || ko.rest.isFunction(_data)) {
+				throw new Error('Data object parameter is required.');
 			}
 
-			if (ko.rest.isUndefined(error)) {
-				error = function(err) { console.log(err); };
+			if (ko.rest.isUndefined(_error)) {
+				_error = function(err) { console.log(err); };
 			}
 
 			var self = this;
-			ko.rest.adapter('POST', self.url, data, success, error);
+			ko.rest.adapter({ method: 'POST', url: self.url, data: _data, success: _success, error: _error });
 		};
 
 		// PUT 'url'
-		Rest.prototype.update = function(data, success, error) {
+		Rest.prototype.update = function(data, _success, _error) {
 			if (ko.rest.isUndefined(data) || ko.rest.isFunction(data)) {
 				throw new Error('Data object parameter cannot be found.');
 			}
 
-			if (ko.rest.isUndefined(error)) {
-				error = function(err) { console.log(err); };
+			if (ko.rest.isUndefined(_error)) {
+				_error = function(err) { console.log(err); };
 			}
 
 			if (!data.hasOwnProperty('id')) {
@@ -90,13 +96,13 @@
 			var _json = data;
 
 			var _url = this.url + '/' + _id;
-			ko.rest.adapter('PUT', _url, _json, success, error);
+			ko.rest.adapter({ method: 'PUT', url: _url, data: _json, success: _success, error: _error });
 		};
 
 		// method DELETE 'url'
-		Rest.prototype.delete = function(code, success, error) {
-			if (ko.rest.isUndefined(error)) {
-				error = function(err) { console.log(err); };
+		Rest.prototype.delete = function(code, _success, _error) {
+			if (ko.rest.isUndefined(_error)) {
+				_error = function(err) { console.log(err); };
 			}
 
 			var self = this;
@@ -105,7 +111,7 @@
 				throw new Error("'id' parameter was not specified.");
 			} else {
 				var _url = self.url + '/' + code;
-				ko.rest.adapter('DELETE', _url, {}, success, error);
+				ko.rest.adapter({ method: 'DELETE', url: _url, data: {}, success: _success, error: _error });
 			}
 		};
 
@@ -120,41 +126,43 @@
 		}
 	};
 
-	ko.rest.adapter = function(method, _url, _data, cbSuccess, cbError) {
+    // pass an object { method, url, data, success, error }
+	ko.rest.adapter = function(obj) {
+	
 		if (!ko.rest.isUndefined(jQuery)) {
 			$.ajax({
-				url: _url, 
+				url: obj.url, 
 				cache: false,
-				data: _data,
-				type: method,
+				data: obj.data,
+				type: obj.method,
 				dataType: 'json'
-			}).done(cbSuccess)
-			  .fail(cbError);
+			}).done(obj.success)
+			  .fail(obj.error);
 			return;
 		}
 
 		var xhr = ko.rest.xhr();
 		xhr.onload = function() {
 			var res = JSON.parse(this.responseText);
-			cbSuccess(res);
+			obj.success(res);
 		};
 		xhr.onerror = function() { 
 			var res = JSON.parse(this.responseText);
-			cbError(res);
+			obj.error(res);
 		};
 		
-		var qrystr = convert(_data);
+		var qrystr = convert(obj.data);
 		if (!ko.rest.isUndefined(qrystr) && qrystr !== '') {
-			_url = _url + '?' + qrystr;
+			obj.url = obj.url + '?' + qrystr;
 		}
 
-		xhr.open(method, _url, true);
+		xhr.open(method, obj.url, true);
 
-		if (method === 'GET') {
+		if (obj.method === 'GET') {
 			xhr.send(null);
 		} else {
 			xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.send(JSON.stringify(_data));
+			xhr.send(JSON.stringify(obj.data));
 		}
 	};
 
