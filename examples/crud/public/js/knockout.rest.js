@@ -6,7 +6,6 @@
 	}
 
 	ko.rest = {
-		version: '1.0.0',
 		isUndefined: function(obj) {
 			return (typeof obj === 'undefined');
 		},
@@ -120,7 +119,7 @@
 		}
 	};
 
-	ko.rest.adapter = function(method, _url, _data, cbSuccess, cbError) {
+	ko.rest.adapter = function(method, _url, _data, cb_ok, cb_err) {
 		if (!ko.rest.isUndefined(jQuery)) {
 			$.ajax({
 				url: _url, 
@@ -128,48 +127,45 @@
 				data: _data,
 				type: method,
 				dataType: 'json'
-			}).done(cbSuccess)
-			  .fail(cbError);
-			return;
-		}
-
-		var xhr = ko.rest.xhr();
-		xhr.onload = function() {
-			var res = JSON.parse(this.responseText);
-			cbSuccess(res);
-		};
-		xhr.onerror = function() { 
-			var res = JSON.parse(this.responseText);
-			cbError(res);
-		};
-		
-		var qrystr = convert(_data);
-		if (!ko.rest.isUndefined(qrystr) && qrystr !== '') {
-			_url = _url + '?' + qrystr;
-		}
-
-		xhr.open(method, _url, true);
-
-		if (method === 'GET') {
-			xhr.send(null);
+			}).done(cb_ok)
+			  .fail(cb_err);
 		} else {
-			xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.send(JSON.stringify(_data));
+			var xhr = ko.rest.xhr();
+			xhr.onload = function() {
+				var res = JSON.parse(this.responseText);
+				cb_ok(res);
+			};
+			xhr.onerror = function() { 
+				var res = JSON.parse(this.responseText);
+				cb_err(res);
+			};
+			
+			var qrystr = convert(_data);
+			if (typeof qrystr !== 'undefined' && qrystr !== '') {
+				_url = _url + '?' + qrystr;
+			}
+
+			xhr.open(method, _url, true);
+
+			if (method === 'GET') {
+				xhr.send(null);
+			} else {
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.send(JSON.stringify(_data));
+			}
 		}
 	};
 
 	function convert(obj) {
-		if (typeof obj === 'undefined') {
+		if (typeof obj === 'undefined')
 			return '';
-		}
 
 		var _tmp = '', idx = 0;
 		for(var key in obj) {
-			if (idx === 0) {
+			if (idx == 0)
 				_tmp += (key + '=' + obj[key]);
-			} else {
+			else 
 				_tmp += '&' + (key + '=' + obj[key]);
-			}
 			idx++;
 		}
 		return _tmp;

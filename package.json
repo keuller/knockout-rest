@@ -1,6 +1,6 @@
 {
   "name": "knockout-rest",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Knockout REST API",
   "main": "knockout-rest.js",
   "scripts": {
