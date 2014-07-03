@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+	<title>Knockout</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
+	<script type="text/javascript" src="js/vendor/jquery-2.1.1.min.js"></script>
+	<style type="text/css">
+		body { background-color: #eef; }
+		table th { background-color: #74cf74 !important; }
+	</style>
+</head>
+<body>
+	<h2 style="margin-left:5%;">Knockout Rest - CRUD Sample</h2>
+
+	<div class="container">
+		<div class="row">
+			<button type="button" class="btn btn-warn" data-bind="click: clear">Clear</button>
+			&nbsp;|&nbsp;
+			<button type="button" class="btn btn-warn" data-bind="click: listAll">Get All</button>
+			<button type="button" class="btn btn-warn" data-bind="click: filter">Filter</button>
+			<button type="button" class="btn btn-warn" data-bind="click: fetch">Get</button>
+			&nbsp;|&nbsp;
+			<button type="button" class="btn btn-warn" data-bind="click: update">Update</button>
+			<button type="button" class="btn btn-warn" data-bind="click: remove">Delete</button>
+
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th style="width:5%">ID</th>
+					<th>Name</th>
+					<th>State</th>
+					<th style="width:10%">&nbsp;</th>
+				</tr>
+				<tbody data-bind="foreach: collection">
+					<tr>
+						<td> <span data-bind="text: id"></span> </td>
+						<td> <span data-bind="text: name"></span> </td>
+						<td> <span data-bind="text: state"></span> </td>
+						<td> </td>
+					</tr>
+				</tbody>
+				<tfooter>
+					<tr>
+						<td colspan="6"> <b>Total de Registros:</b> <span data-bind="text: collection().length"></span> </td>
+					</tr>
+				</tfooter>
+			</table>
+		</div>
+
+		<div class="row">
+			<form data-bind="submit: save">
+				<div>
+					ID: <input type="text" data-bind="value: model().id" />
+				</div>
+				<div>
+					Name: <input type="text" data-bind="value: model().name" maxlength="35" />
+				</div>
+				<div>
+					State: <input type="text" data-bind="value: model().state" maxlength="2" />
+				</div>
+				<div>
+					<button class="btn btn-success">Save</button>
+					<button type="button" class="btn" data-bind="click: $root.cancel()">Cancel</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+	<script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/vendor/knockout-3.1.0.js"></script>
+	<script type="text/javascript" src="js/knockout-rest.min.js"></script>
+	<script type="text/javascript" src="js/cities.js"></script>
+</body>
+</html>
