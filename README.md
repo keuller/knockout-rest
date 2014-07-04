@@ -51,7 +51,7 @@ At the end we applying this view model object into the page, using `ko.applyBind
 
 	var service = ko.rest.service(['endpoint_url']);
 
-After invocation this method, it will return an instance of REST service object provided by `knockout-rest`. This object provide to us a few methods that allow us make requests to the service, with no bother us with implementation details of $.ajax API. 
+After invocation this method, it will return an instance of REST service object provided by `knockout-rest`. This object provide to us a few methods that allow us make requests to the service, with no bother us with implementation details of Ajax's API. 
 
 ## Setting server side
 
